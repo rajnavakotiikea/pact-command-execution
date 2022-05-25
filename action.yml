@@ -5,7 +5,10 @@ branding:
   icon: 'arrow-right'
   color: 'yellow'
 
-#inputs:
+inputs:
+  github_access_token:
+    description: access token
+    required: true
 #  owner:
 #    description: "The owner of the repository where the workflow is contained."
 #    required: true
