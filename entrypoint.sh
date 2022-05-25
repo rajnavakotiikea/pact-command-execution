@@ -9,7 +9,7 @@ testing() {
 create_pact_webhook() {
  run broker create-webhook 'https://api.github.com/repos/rajnavakotiikea/example-provider/dispatches' \
                     --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
-                    'Authorization: Bearer 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' \
+                    'Authorization: Bearer test123' \
                     --request POST \
                     --data '{ "event_type": "pact_changed", "client_payload": { "pact_url": "${pactbroker.pactUrl}" } }' \
                     --provider pactflow-example-provider \
