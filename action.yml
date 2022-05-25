@@ -1,0 +1,20 @@
+name: Run pact CLI command
+description: 'This action triggers a workflow in another repository and waits for the result.'
+author: rajnavakoti
+branding:
+  icon: 'arrow-right'
+  color: 'yellow'
+
+#inputs:
+#  owner:
+#    description: "The owner of the repository where the workflow is contained."
+#    required: true
+
+#outputs:
+#  workflow_id:
+#    description: The ID of the workflow that was triggered by this action
+#  workflow_url:
+#    description: The URL of the workflow that was triggered by this action
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

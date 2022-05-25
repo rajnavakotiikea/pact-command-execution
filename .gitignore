@@ -4,6 +4,11 @@ bin-release/
 [Oo]bj/
 [Bb]in/
 
+# mac files
+.DS_Store
+TEMP.md
+.idea
+
 # Other files and folders
 .settings/
 
