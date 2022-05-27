@@ -9,7 +9,9 @@ COMMAND='create-webhook'
 testing() {
   echo ""
   echo "This is to test the docker build"
-  echo "$PACT_CLI + $EXECUTOR + $COMMAND"
+  echo "$PACT_CLI $EXECUTOR $COMMAND"
+  echo "$INPUT_ACTION"
+  echo "$INPUT_WEBHOOK_TYPE"
 }
 
 create_pact_webhook() {

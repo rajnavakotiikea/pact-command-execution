@@ -6,12 +6,113 @@ branding:
   color: 'yellow'
 
 inputs:
-  github_access_token:
-    description: access token
+  # Webhook specifications
+  action:
+    description: Webhook action [Allowed - get, create, update, delete]
     required: true
-#  owner:
-#    description: "The owner of the repository where the workflow is contained."
-#    required: true
+  webhhook_type:
+    description: Type of webhook [Allowed - trigger_job, commit_status]
+    required: true
+
+  # Git repository details
+  organization:
+    description: Name of the organization
+    required: true
+  repository:
+    description: Name of the repository
+    required: true
+  github-personal-access-token:
+    description: git access token
+    required: true
+  description:
+    description: Webhook description
+    required: false
+
+  # Broker authentication details [either token or username+password needed to be provided]
+  broker-base-url:
+    description: The base URL of the Pact Broker
+    required: false
+  broker-username:
+    description: Pact Broker basic auth username
+    required: false
+  broker-password:
+    description: Pact Broker basic auth password
+    required: false
+  broker-token:
+    description: Pact Broker bearer token
+    required: false
+  user:
+    description: Webhook basic auth username and password eg. username:password
+    required: false
+
+  # consumer details
+  consumer:
+    description: Consumer name
+    required: false
+  consumer-label:
+    description: Consumer label, mutually exclusive with consumer name
+    required: false
+
+  # provider details
+  provider:
+    description: Provider name
+    required: false
+  provider-label:
+    description: Provider label, mutually exclusive with provider name
+    required: false
+
+  # contract content changed flags [must be boolean - true or false]
+  contract-content-changed:
+    description: Trigger this webhook when the pact content changes
+    required: false
+  no-contract-content-changed:
+    description: Trigger this webhook when the no pact content changes
+    required: false
+
+  # contract content flags [must be boolean - true or false]
+  contract-published:
+    description: Trigger this webhook when a pact is published
+    required: false
+  no-contract-published:
+    description: Trigger this webhook when no contract published
+    required: false
+
+  # provider verification flags [must be boolean - true or false]
+  provider-verification-published:
+    description: Trigger this webhook when a provider verification result is published
+    required: false
+  no-provider-verification-published:
+    description: Trigger this webhook when no provider verification result published
+    required: false
+
+  # failed provider verification results flags [must be boolean - true or false]
+  provider-verification-failed:
+    description: Trigger this webhook when a failed provider verification result is published
+    required: false
+  no-provider-verification-failed:
+    description: Trigger this webhook when no failed provider verification result published
+    required: false
+
+  # success provider verification results flags [must be boolean - true or false]
+  provider-verification-succeeded:
+    description: Trigger this webhook when a successful provider verification result is published
+    required: false
+  no-provider-verification-succeeded:
+    description: Trigger this webhook when no successful provider verification result published
+    required: false
+
+  # contract requires verification flags [must be boolean - true or false]
+  contract-requiring-verification-published:
+    description: Trigger this webhook when a contract is published that requires verification
+    required: false
+  no-contract-requiring-verification-published:
+    description: Trigger this webhook when no contract is published that requires verification
+    required: false
+
+  # team uuid - only applicable for Pact flow
+  team-uuid:
+    description: UUID of the Pactflow team to which the webhook should be assigned (Pactflow only)
+    required: false
 
 #outputs:
 #  workflow_id:
