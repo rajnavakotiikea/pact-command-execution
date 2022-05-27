@@ -28,6 +28,7 @@ create_pact_webhook() {
 }
 
 validate_broker_details() {
+  echo "provided token: $INPUT_broker_token"
   if [ -z "$INPUT_broker_token" ]
   then
     echo "broker token not provided. checking for broker username and password details"
@@ -38,9 +39,9 @@ validate_broker_details() {
       echo "broker username and password provided for authentication"
     fi
   else
-   echo "broker token provided for authentication"
-   PACT_CLI+="$INPUT_broker_token"
-   echo "$PACT_CLI"
+    echo "broker token provided for authentication"
+    PACT_CLI+="$INPUT_broker_token"
+    echo "$PACT_CLI"
   fi
 }
 
