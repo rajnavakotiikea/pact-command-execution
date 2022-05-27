@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 set -e
 
+PACT_CLI="docker run --rm pactfoundation/pact-cli:latest ";
+EXECUTOR="broker "
+COMMAND='create-webhook'
+
+
 testing() {
   echo ""
   echo "This is to test the docker build"
+  echo "$PACT_CLI + $EXECUTOR + $COMMAND"
 }
 
 create_pact_webhook() {
@@ -21,4 +27,13 @@ create_pact_webhook() {
 
 testing
 
-create_pact_webhook
+#create_pact_webhook
+
+# org name
+# repo name
+# github access token
+# provider name
+# consumer name
+# description
+# broker url
+# broker pwd
