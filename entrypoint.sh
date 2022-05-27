@@ -45,6 +45,7 @@ validate_broker_details() {
 }
 
 testing
+validate_broker_details
 
 
 
