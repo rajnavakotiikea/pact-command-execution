@@ -28,7 +28,8 @@ create_pact_webhook() {
 }
 
 validate_broker_details() {
-  echo "provided token: $INPUT_broker_token"
+  echo "provided token: $INPUT_BROKER_TOKEN"
+  echo "provided token is: $broker_token"
   if [ -z "$INPUT_broker_token" ]
   then
     echo "broker token not provided. checking for broker username and password details"
