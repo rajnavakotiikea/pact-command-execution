@@ -30,13 +30,13 @@ testing() {
 command_setup() {
   commander=""
   echo "provided action: $INPUT_ACTION"
-  if [[ "$INPUT_ACTION" = "create" || "$INPUT_ACTION" = "update" ]]
+  if [[ "$INPUT_ACTION" == "create" || "$INPUT_ACTION" == "update" ]]
   then
-    if [ "$INPUT_ACTION" = "create" ]
+    if [ "$INPUT_ACTION" == "create" ]
     then
       commander="create-webhook"
       echo "Executing create-webhook command"
-    elif [ "$INPUT_ACTION" = "update" ]
+    elif [ "$INPUT_ACTION" == "update" ]
     then
       commander="create-or-update-webhook"
       echo "Executing create-or-update-webhook command"
