@@ -209,7 +209,7 @@ uri_setup() {
 create_webhook() {
 
 
-#  echo "$PACT_CLI $EXECUTOR $command_to_execute $uri $broker_auth $provider_args $consumer_args $events_args"
+  echo "$PACT_CLI $EXECUTOR $(command_setup)"
 
 #  docker run --rm pactfoundation/pact-cli:latest broker \
 #                      "$COMMAND_TO_EXECUTE"  "$URI"\
