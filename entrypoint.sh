@@ -43,7 +43,7 @@ command_setup() {
     fi
   else
     echo "Action(input value) is ,it must be either 'create' or 'update'"
-    exit 1
+#    exit 1
   fi
   echo "command: $commander"
 }
