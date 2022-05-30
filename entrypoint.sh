@@ -201,25 +201,6 @@ create_webhook() {
   provider_args="$(provider_details)"
   events_args="$(webhook_events)"
 
-
-  echo "--------- $PACT_CLI $EXECUTOR $command_to_execute $uri --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json'
-  $broker_auth $consumer_args $provider_args $events_args -------------"
-
-#  docker run --rm pactfoundation/pact-cli:latest broker \
-#                      "$COMMAND_TO_EXECUTE"  "$URI"\
-#                      "$GITHUB_URI" \
-#                      "$HEADERS" \
-#                      "'Authorization: Bearer ${INPUT_GITHUB_PERSONAL_ACCESS_TOKEN}'" \
-#                      "$REQUEST" \
-#                      "$DATA" \
-#                      "$PROVIDER_DETAILS"  "$CONSUMER_DETAILS" \
-#                      "$EVENT_LIST" \
-#                      "$WEBHOOK_DESCRIPTION" \
-#                      "$INPUT_BROKER_BASE_URL" \
-#                      "$BROKER_AUTHENTICATION" \
-#                      "$TEAM_DETAILS"
-
-
   docker run --rm pactfoundation/pact-cli:latest broker $command_to_execute https://api.github.com/repos/"${INPUT_ORGANIZATION}"/"${INPUT_REPOSITORY}"/dispatches \
                     --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
                     "'Authorization: Bearer ${INPUT_GITHUB_PERSONAL_ACCESS_TOKEN}'" \
@@ -230,19 +211,7 @@ create_webhook() {
                     $events_args \
                     --description "Pact content changed for pactflow-example-provider" \
                     --broker-base-url ${INPUT_BROKER_BASE_URL} \
-                    --broker-token ${INPUT_BROKER_TOKEN}
-
-#  docker run --rm pactfoundation/pact-cli:latest broker create-webhook 'https://api.github.com/repos/rajnavakotiikea/example-provider/dispatches' \
-#                                                                       'https://api.github.com/repos/rajnavakotiikea/example-provider/dispatches'
-#                    --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
-#                    "'Authorization: Bearer ${INPUT_GITHUB_TOKEN}'" \
-#                    --request POST \
-#                    --data '{ "event_type": "pact_changed", "client_payload": { "pact_url": "${pactbroker.pactUrl}" } }' \
-#                    --provider pactflow-example-provider \
-#                    --contract-content-changed \
-#                    --description "Pact content changed for pactflow-example-provider" \
-#                    --broker-base-url https://sampleautoamtiontestraj.pactflow.io \
-#                    --broker-token GglUlzHa8Egn_fpkhzZQLw
+                    $broker_auth
 }
 
 broker_auth_setup() {
