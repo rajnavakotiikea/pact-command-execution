@@ -207,7 +207,7 @@ uri_setup() {
 }
 
 create_webhook() {
-  validate_args
+
 
 #  echo "$PACT_CLI $EXECUTOR $command_to_execute $uri $broker_auth $provider_args $consumer_args $events_args"
 
@@ -261,6 +261,7 @@ broker_auth_setup() {
 }
 
 testing
+validate_args
 create_webhook
 #broker_auth="$(broker_auth_setup)"
 #echo "$broker_auth"
