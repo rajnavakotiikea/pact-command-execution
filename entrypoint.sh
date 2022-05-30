@@ -10,7 +10,6 @@ GITHUB_URI=''
 HEADERS=''
 REQUEST=''
 DATA=''
-PARTICIPANT_DETAILS=''
 PROVIDER_DETAILS=''
 CONSUMER_DETAILS=''
 EVENT_LIST=''
@@ -25,6 +24,60 @@ testing() {
   echo "$PACT_CLI $EXECUTOR $COMMAND"
   echo "$INPUT_ACTION"
   echo "$INPUT_WEBHOOK_TYPE"
+}
+
+webhook_events() {
+  events=""
+  if [ "$INPUT_CONTRACT_CONTENT_CHANGED" == "true" ]
+  then
+    events="$events --contract-content-changed"
+  fi
+  if [ "$INPUT_NO_CONTRACT_CONTENT_CHANGED" == "true" ]
+  then
+    events="$events --no-contract-content-changed"
+  fi
+  if [ "$INPUT_CONTRACT_PUBLISHED" == "true" ]
+  then
+    events="$events --contract-published"
+  fi
+  if [ "$INPUT_NO_CONTRACT_PUBLISHED" == "true" ]
+  then
+    events="$events --no-contract-published"
+  fi
+  if [ "$INPUT_PROVIDER_VERIFICATION_PUBLISHED" == "true" ]
+  then
+    events="$events --provider-verification-published"
+  fi
+  if [ "$INPUT_NO_PROVIDER_VERIFICATION_PUBLISHED" == "true" ]
+  then
+    events="$events --no-provider-verification-published"
+  fi
+  if [ "$INPUT_PROVIDER_VERIFICATION_FAILED" == "true" ]
+  then
+    events="$events --provider-verification-failed"
+  fi
+  if [ "$INPUT_NO_PROVIDER_VERIFICATION_FAILED" == "true" ]
+  then
+    events="$events --no-provider-verification-failed"
+  fi
+  if [ "$INPUT_PROVIDER_VERIFICATION_SUCCEEDED" == "true" ]
+  then
+    events="$events --provider-verification-succeeded"
+  fi
+  if [ "$INPUT_NO_PROVIDER_VERIFICATION_SUCCEEDED" == "true" ]
+  then
+    events="$events --no-provider-verification-succeeded"
+  fi
+  if [ "$INPUT_CONTRACT_REQUIRING_VERIFICATION_PUBLISHED" == "true" ]
+  then
+    events="$events --contract-requiring-verification-published"
+  fi
+  if [ "$INPUT_NO_CONTRACT_REQUIRING_VERIFICATION_PUBLISHED" == "true" ]
+  then
+    events="$events --no-contract-requiring-verification-published"
+  fi
+
+  echo "$events"
 }
 
 consumer_details() {
@@ -156,3 +209,5 @@ consumer="$(consumer_details)"
 echo "$consumer"
 provider="$(provider_details)"
 echo "$provider"
+events_to_add="$(webhook_events)"
+echo "$events_to_add"
