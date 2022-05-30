@@ -29,7 +29,7 @@ testing() {
 
 command_setup() {
   command=''
-  echo: "provided action: $INPUT_ACTION"
+  echo "provided action: $INPUT_ACTION"
   if [ "$INPUT_ACTION" == 'create' ] || [ "$INPUT_ACTION" == 'update' ]
   then
     if [ "$INPUT_ACTION" == 'create' ]
