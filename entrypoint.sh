@@ -219,8 +219,9 @@ create_webhook() {
 #                      "$BROKER_AUTHENTICATION" \
 #                      "$TEAM_DETAILS"
 docker_command=" run --rm pactfoundation/pact-cli:latest broker $command_to_execute $uri"
+echo "broker url: ${INPUT_BROKER_BASE_URL}"
 
-  docker $docker_command \
+  docker run --rm pactfoundation/pact-cli:latest broker $command_to_execute "$(uri_setup)" \
                     --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
                     "'Authorization: Bearer ${INPUT_GITHUB_PERSONAL_ACCESS_TOKEN}'" \
                     --request POST \
@@ -233,7 +234,7 @@ docker_command=" run --rm pactfoundation/pact-cli:latest broker $command_to_exec
                     --broker-token ${INPUT_BROKER_TOKEN}
 
 #  docker run --rm pactfoundation/pact-cli:latest broker create-webhook 'https://api.github.com/repos/rajnavakotiikea/example-provider/dispatches' \
-#                                                                        'https://api.github.com/repos/rajnavakotiikea/example-provider/dispatches'
+#                                                                       'https://api.github.com/repos/rajnavakotiikea/example-provider/dispatches'
 #                    --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
 #                    "'Authorization: Bearer ${INPUT_GITHUB_TOKEN}'" \
 #                    --request POST \
