@@ -218,6 +218,17 @@ create_webhook() {
 #                      "$INPUT_BROKER_BASE_URL" \
 #                      "$BROKER_AUTHENTICATION" \
 #                      "$TEAM_DETAILS"
+ echo "----------#### docker run --rm pactfoundation/pact-cli:latest broker $command_to_execute $uri \
+                                      --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
+                                      "'Authorization: Bearer ${INPUT_GITHUB_PERSONAL_ACCESS_TOKEN}'" \
+                                      --request POST \
+                                      --data '{ "event_type": "pact_changed", "client_payload": { "pact_url": "${pactbroker.pactUrl}" } }' \
+                                      $provider_args \
+                                      $consumer_args \
+                                      $events_args \
+                                      --description "Pact content changed for pactflow-example-provider" \
+                                      --broker-base-url "${INPUT_BROKER_BASE_URL}" \
+                                      --broker-token "${INPUT_BROKER_TOKEN}" #######-----------------"
 
   docker run --rm pactfoundation/pact-cli:latest broker $command_to_execute $uri \
                     --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
