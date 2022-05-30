@@ -8,10 +8,10 @@ branding:
 inputs:
   # Webhook specifications
   action:
-    description: Webhook action [Allowed - get, create, update, delete]
+    description: Webhook action [Allowed - create, update]
     required: true
   webhook_type:
-    description: Type of webhook [Allowed - trigger_job, commit_status]
+    description: Type of webhook [Allowed - trigger_provider_job, consumer_commit_status]
     required: true
 
   # Git repository details
