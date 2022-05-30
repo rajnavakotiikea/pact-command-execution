@@ -45,9 +45,9 @@ validate_args() {
     fi
   fi
 
-  if [ "$INPUT_ACTION" != "trigger_provider_job" ]
+  if [ "$INPUT_WEBHOOK_TYPE" != "trigger_provider_job" ]
   then
-    if [ "$INPUT_ACTION" != "consumer_commit_status" ]
+    if [ "$INPUT_WEBHOOK_TYPE" != "consumer_commit_status" ]
     then
     echo "Error - Webhook_type(input value) is $INPUT_WEBHOOK_TYPE , it must be either 'trigger_provider_job' or 'consumer_commit_status'"
     exit 1
