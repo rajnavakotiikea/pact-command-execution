@@ -28,7 +28,7 @@ testing() {
 }
 
 command_setup() {
-  command=''
+  command=""
   echo "provided action: $INPUT_ACTION"
   if [ "$INPUT_ACTION" == 'create' ] || [ "$INPUT_ACTION" == 'update' ]
   then
@@ -45,7 +45,7 @@ command_setup() {
     echo "Action(input value) is $INPUT_ACTION ,it must be either 'create' or 'update'"
     exit 1
   fi
-  echo "$command"
+  echo "command: $command"
 }
 
 uri_setup() {
