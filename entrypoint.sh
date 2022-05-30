@@ -43,20 +43,19 @@ command_setup() {
     fi
   else
     echo "Action(input value) is ,it must be either 'create' or 'update'"
-    exit 1
   fi
   echo "command: $commander"
 }
 
 uri_setup() {
   uri=''
-  if [ "$INPUT_WEBHOOK_TYPE" == 'trigger_provider_job' ] || [ "$INPUT_WEBHOOK_TYPE" == 'consumer_commit_status' ]
+  if [ "$INPUT_WEBHOOK_TYPE" == "trigger_provider_job" ] || [ "$INPUT_WEBHOOK_TYPE" == "consumer_commit_status" ]
   then
-    if [ "$INPUT_WEBHOOK_TYPE" == 'trigger_provider_job' ]
+    if [ "$INPUT_WEBHOOK_TYPE" == "trigger_provider_job" ]
     then
       uri="'https://api.github.com/repos/$INPUT_ORGANIZATION/$INPUT_REPOSITORY/dispatches'"
       echo "$uri"
-    elif [ "$INPUT_WEBHOOK_TYPE" == 'consumer_commit_status' ]
+    elif [ "$INPUT_WEBHOOK_TYPE" == "consumer_commit_status" ]
     then
       uri="'https://api.github.com/repos/$INPUT_ORGANIZATION/$INPUT_REPOSITORY/dispatches'"
       echo "$uri"
@@ -107,7 +106,6 @@ broker_auth_setup() {
     if [ -z "$INPUT_BROKER_USERNAME" ] || [ -z "$INPUT_BROKER_PASSWORD" ]
     then
       echo "either token or username + password has to be provided"
-      exit 1
     else
       echo "broker username and password provided for authentication"
       authentication="--broker-username $INPUT_BROKER_USERNAME --broker-password $INPUT_BROKER_PASSWORD"
@@ -120,10 +118,9 @@ broker_auth_setup() {
 }
 
 testing
-#broker_auth="$(broker_auth_setup)"
-#echo "$broker_auth"
-command_setup
+broker_auth="$(broker_auth_setup)"
+echo "$broker_auth"
 command_value=$(command_setup)
 echo "$command_value"
-#uri_value="$(uri_setup)"
-#echo "$uri_value"
+uri_value="$(uri_setup)"
+echo "$uri_value"
