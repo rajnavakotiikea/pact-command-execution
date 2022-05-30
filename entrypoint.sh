@@ -195,7 +195,7 @@ uri_setup() {
 
 create_webhook() {
   command_to_execute=$(command_setup)
-  uri="$(uri_setup)"
+  uri=$(uri_setup)
   broker_auth="$(broker_auth_setup)"
   consumer_args="$(consumer_details)"
   provider_args="$(provider_details)"
