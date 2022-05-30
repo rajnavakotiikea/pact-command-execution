@@ -221,17 +221,6 @@ create_webhook() {
 echo "github uri: $uri"
 echo "broker url: ${INPUT_BROKER_BASE_URL}"
 
- echo "----------#### docker run --rm pactfoundation/pact-cli:latest broker $command_to_execute $uri --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json'
-                                      "'Authorization: Bearer ${INPUT_GITHUB_PERSONAL_ACCESS_TOKEN}'"
-                                      --request POST
-                                      --data '{ "event_type": "pact_changed", "client_payload": { "pact_url": "${pactbroker.pactUrl}" } }'
-                                      $provider_args
-                                      $consumer_args
-                                      $events_args
-                                      --description "Pact content changed for pactflow-example-provider"
-                                      --broker-base-url "${INPUT_BROKER_BASE_URL}"
-                                      --broker-token "${INPUT_BROKER_TOKEN}" #######-----------------"
-
   docker run --rm pactfoundation/pact-cli:latest broker $command_to_execute $uri \
                     --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
                     "'Authorization: Bearer ${INPUT_GITHUB_PERSONAL_ACCESS_TOKEN}'" \
@@ -241,8 +230,8 @@ echo "broker url: ${INPUT_BROKER_BASE_URL}"
                     $consumer_args \
                     $events_args \
                     --description "Pact content changed for pactflow-example-provider" \
-                    --broker-base-url "${INPUT_BROKER_BASE_URL}" \
-                    --broker-token "${INPUT_BROKER_TOKEN}"
+                    --broker-base-url ${INPUT_BROKER_BASE_URL} \
+                    --broker-token ${INPUT_BROKER_TOKEN}
 
 #  docker run --rm pactfoundation/pact-cli:latest broker create-webhook 'https://api.github.com/repos/rajnavakotiikea/example-provider/dispatches' \
 #                    --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
@@ -255,9 +244,6 @@ echo "broker url: ${INPUT_BROKER_BASE_URL}"
 #                    --broker-base-url https://sampleautoamtiontestraj.pactflow.io \
 #                    --broker-token GglUlzHa8Egn_fpkhzZQLw
 }
-
-
-
 
 broker_auth_setup() {
   authentication=""
@@ -278,16 +264,3 @@ broker_auth_setup() {
 testing
 validate_args
 create_webhook
-#broker_auth="$(broker_auth_setup)"
-#echo "$broker_auth"
-#command_value=$(command_setup)
-#echo "$command_value"
-#uri_value="$(uri_setup)"
-#echo "$uri_value"
-#consumer="$(consumer_details)"
-#echo "$consumer"
-#provider="$(provider_details)"
-#echo "$provider"
-#events_to_add="$(webhook_events)"
-#echo "$events_to_add"
-
