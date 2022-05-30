@@ -218,7 +218,7 @@ create_webhook() {
 #                      "$INPUT_BROKER_BASE_URL" \
 #                      "$BROKER_AUTHENTICATION" \
 #                      "$TEAM_DETAILS"
-echo "github uri: $uri"
+echo "docker run --rm pactfoundation/pact-cli:latest broker $command_to_execute $uri"
 echo "broker url: ${INPUT_BROKER_BASE_URL}"
 
   docker run --rm pactfoundation/pact-cli:latest broker $command_to_execute $uri \
