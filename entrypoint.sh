@@ -138,9 +138,7 @@ webhook_events() {
 }
 
 consumer_details() {
-  echo "$TESTER"
   consumer_section=""
-  echo "provided consumer name: $INPUT_CONSUMER and consumer label: $INPUT_CONSUMER_LABEL"
   if [ -n "$INPUT_CONSUMER" ]
   then
     consumer_section="--consumer $INPUT_CONSUMER"
@@ -154,7 +152,6 @@ consumer_details() {
 
 provider_details() {
   provider_section=""
-  echo "provided provider name: $INPUT_PROVIDER and consumer label: $INPUT_PROVIDER_LABEL"
   if [ -n "$INPUT_PROVIDER" ]
   then
     provider_section="--consumer $INPUT_PROVIDER"
@@ -168,20 +165,15 @@ provider_details() {
 
 command_setup() {
   commander=""
-  echo "provided action: $INPUT_ACTION"
   if [[ "$INPUT_ACTION" == "create" || "$INPUT_ACTION" == "update" ]]
   then
     if [ "$INPUT_ACTION" == "create" ]
     then
       commander="create-webhook"
-      echo "Executing create-webhook command"
     elif [ "$INPUT_ACTION" == "update" ]
     then
       commander="create-or-update-webhook"
-      echo "Executing create-or-update-webhook command"
     fi
-  else
-    echo "Action(input value) is ,it must be either 'create' or 'update'"
   fi
   echo "$commander"
 }
@@ -193,15 +185,10 @@ uri_setup() {
     if [ "$INPUT_WEBHOOK_TYPE" == "trigger_provider_job" ]
     then
       uri="'https://api.github.com/repos/$INPUT_ORGANIZATION/$INPUT_REPOSITORY/dispatches'"
-      echo "$uri"
     elif [ "$INPUT_WEBHOOK_TYPE" == "consumer_commit_status" ]
     then
       uri="'https://api.github.com/repos/$INPUT_ORGANIZATION/$INPUT_REPOSITORY/dispatches'"
-      echo "$uri"
     fi
-  else
-    echo "Webhook_type(input value) is $INPUT_WEBHOOK_TYPE , it must be either 'trigger_provider_job' or 'consumer_commit_status'"
-    exit 1
   fi
   echo "$uri"
 }
@@ -215,7 +202,7 @@ create_webhook() {
   events_args="$(webhook_events)"
 
 
-  echo "$PACT_CLI $EXECUTOR $command_to_execute $uri $broker_auth $consumer_args $provider_args $events_args"
+  echo "--------- $PACT_CLI $EXECUTOR $command_to_execute $uri $broker_auth $consumer_args $provider_args $events_args -------------"
 
 #  docker run --rm pactfoundation/pact-cli:latest broker \
 #                      "$COMMAND_TO_EXECUTE"  "$URI"\
@@ -248,19 +235,15 @@ create_webhook() {
 
 broker_auth_setup() {
   authentication=""
-  echo "provided token: $INPUT_BROKER_TOKEN"
   if [ -z "$INPUT_BROKER_TOKEN" ]
   then
-    echo "broker token not provided. checking for broker username and password details"
     if [ -z "$INPUT_BROKER_USERNAME" ] || [ -z "$INPUT_BROKER_PASSWORD" ]
     then
-      echo "either token or username + password has to be provided"
+      authentication=""
     else
-      echo "broker username and password provided for authentication"
       authentication="--broker-username $INPUT_BROKER_USERNAME --broker-password $INPUT_BROKER_PASSWORD"
     fi
   else
-    echo "broker token provided for authentication"
     authentication="--broker-token $INPUT_BROKER_TOKEN"
   fi
   echo "$authentication"
