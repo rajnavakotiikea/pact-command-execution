@@ -201,17 +201,30 @@ create_webhook() {
   provider_args="$(provider_details)"
   events_args="$(webhook_events)"
 
-  github_url="https://api.github.com/repos/${INPUT_ORGANIZATION}/${INPUT_REPOSITORY}/dispatches"
+  if [ "$INPUT_WEBHOOK_TYPE" == "trigger_provider_job" ]
+  then
+    github_url="https://api.github.com/repos/${INPUT_ORGANIZATION}/${INPUT_REPOSITORY}/dispatches"
+    payload="'{ "event_type": "pact_changed", "client_payload": { "pact_url": "${pactbroker.pactUrl}" } }'"
+  elif [ "$INPUT_WEBHOOK_TYPE" == "consumer_commit_status" ]
+  then
+    github_url="https://api.github.com/repos/${INPUT_ORGANIZATION}/${INPUT_REPOSITORY}/statuses/${pactbroker.consumerVersionNumber}"
+    payload="'{ "state": "${pactbroker.githubVerificationStatus}",
+                     "description": "Pact Verification Tests ${pactbroker.providerVersionTags}",
+                     "context": "${pactbroker.providerName} ${pactbroker.providerVersionTags}",
+                     "target_url": "${pactbroker.verificationResultUrl}" }'"
+  fi
+
   echo "$github_url"
+
   docker run --rm pactfoundation/pact-cli:latest broker $command_to_execute $github_url \
                     --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
                     "'Authorization: Bearer ${INPUT_GITHUB_PERSONAL_ACCESS_TOKEN}'" \
                     --request POST \
-                    --data '{ "event_type": "pact_changed", "client_payload": { "pact_url": "${pactbroker.pactUrl}" } }' \
+                    --data $payload \
                     $provider_args \
                     $consumer_args \
                     $events_args \
-                    --description "Pact content changed for pactflow-example-provider" \
+                    --description ${INPUT_DESCRIPTION} \
                     --broker-base-url ${INPUT_BROKER_BASE_URL} \
                     $broker_auth
 }
