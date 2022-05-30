@@ -152,3 +152,7 @@ command_value=$(command_setup)
 echo "$command_value"
 uri_value="$(uri_setup)"
 echo "$uri_value"
+consumer="$(consumer_details)"
+echo "$consumer"
+provider="$(provider_details)"
+echo "$provider"
