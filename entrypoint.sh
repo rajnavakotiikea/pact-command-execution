@@ -201,7 +201,9 @@ create_webhook() {
   provider_args="$(provider_details)"
   events_args="$(webhook_events)"
 
-  docker run --rm pactfoundation/pact-cli:latest broker $command_to_execute https://api.github.com/repos/"${INPUT_ORGANIZATION}"/"${INPUT_REPOSITORY}"/dispatches \
+  github_url="https://api.github.com/repos/${INPUT_ORGANIZATION}/${INPUT_REPOSITORY}/dispatches"
+  echo "$github_url"
+  docker run --rm pactfoundation/pact-cli:latest broker $command_to_execute $github_url \
                     --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
                     "'Authorization: Bearer ${INPUT_GITHUB_PERSONAL_ACCESS_TOKEN}'" \
                     --request POST \
