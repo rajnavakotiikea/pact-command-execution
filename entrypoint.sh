@@ -40,7 +40,7 @@ validate_args() {
   then
     if [ "$INPUT_ACTION" != "update" ]
     then
-    echo >&2 "Action(input value) is $INPUT_ACTION,it must be either 'create' or 'update'"
+    echo "Error - Action(input value) is $INPUT_ACTION,it must be either 'create' or 'update'"
     exit 1
     fi
   fi
