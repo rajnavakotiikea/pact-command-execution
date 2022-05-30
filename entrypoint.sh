@@ -45,7 +45,7 @@ command_setup() {
 #    echo "Action(input value) is $INPUT_ACTION ,it must be either 'create' or 'update'"
 #    exit 1
 #  fi
-  echo "command: $commander"
+#  echo "command: $commander"
 }
 
 uri_setup() {
@@ -123,6 +123,6 @@ testing
 #broker_auth="$(broker_auth_setup)"
 #echo "$broker_auth"
 command_value="$(command_setup)"
-#echo "$command_value"
+echo "$command_value"
 #uri_value="$(uri_setup)"
 #echo "$uri_value"
