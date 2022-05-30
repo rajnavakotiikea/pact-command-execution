@@ -27,6 +27,34 @@ testing() {
   echo "$INPUT_WEBHOOK_TYPE"
 }
 
+consumer_details() {
+  consumer_section=""
+  echo "provided consumer name: $INPUT_CONSUMER and consumer label: $INPUT_CONSUMER_LABEL"
+  if [ -z "$INPUT_CONSUMER" ]
+  then
+    consumer_section="--consumer $INPUT_CONSUMER"
+    if [ -z "$INPUT_CONSUMER_LABEL" ]
+    then
+      consumer_section="$consumer_section --consumer-label $INPUT_CONSUMER_LABEL"
+    fi
+  fi
+  echo "$consumer_section"
+}
+
+provider_details() {
+  provider_section=""
+  echo "provided provider name: $INPUT_PROVIDER and consumer label: $INPUT_PROVIDER_LABEL"
+  if [ -z "$INPUT_PROVIDER" ]
+  then
+    provider_section="--consumer $INPUT_PROVIDER"
+    if [ -z "$INPUT_PROVIDER_LABEL" ]
+    then
+      provider_section="provider_section --consumer-label $INPUT_PROVIDER_LABEL"
+    fi
+  fi
+  echo "$provider_section"
+}
+
 command_setup() {
   commander=""
   echo "provided action: $INPUT_ACTION"
@@ -44,7 +72,7 @@ command_setup() {
   else
     echo "Action(input value) is ,it must be either 'create' or 'update'"
   fi
-  echo "command: $commander"
+  echo "$commander"
 }
 
 uri_setup() {
