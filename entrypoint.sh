@@ -17,7 +17,7 @@ COMMAND=''
 #BROKER_AUTHENTICATION=''
 #TEAM_DETAILS=''
 
-command_to_execute="$(command_setup)"
+command_to_execute=$(command_setup)
 uri="$(uri_setup)"
 broker_auth="$(broker_auth_setup)"
 consumer_args="$(consumer_details)"
