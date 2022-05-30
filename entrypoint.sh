@@ -122,8 +122,8 @@ broker_auth_setup() {
 testing
 #broker_auth="$(broker_auth_setup)"
 #echo "$broker_auth"
-command_setup
-command_value="$(command_setup)"
+#command_setup
+command_value=$(command_setup)
 echo "$command_value"
 #uri_value="$(uri_setup)"
 #echo "$uri_value"
