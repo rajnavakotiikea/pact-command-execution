@@ -17,12 +17,12 @@ COMMAND=''
 #BROKER_AUTHENTICATION=''
 #TEAM_DETAILS=''
 
-command_to_execute=$(command_setup)
-uri="$(uri_setup)"
-broker_auth="$(broker_auth_setup)"
-consumer_args="$(consumer_details)"
-provider_args="$(provider_details)"
-events_args="$(webhook_events)"
+#command_to_execute=$(command_setup)
+#uri="$(uri_setup)"
+#broker_auth="$(broker_auth_setup)"
+#consumer_args="$(consumer_details)"
+#provider_args="$(provider_details)"
+#events_args="$(webhook_events)"
 
 
 
@@ -49,34 +49,34 @@ validate_args() {
   then
     if [ "$INPUT_ACTION" != "consumer_commit_status" ]
     then
-    echo "Error - Action(input value) is $INPUT_ACTION,it must be either 'create' or 'update'"
+    echo "Error - Webhook_type(input value) is $INPUT_WEBHOOK_TYPE , it must be either 'trigger_provider_job' or 'consumer_commit_status'"
     exit 1
     fi
   fi
 
-  if [ -z "$uri" ]
+  if [ -z "$(uri_setup)" ]
   then
     echo "Error - Webhook_type(input value) is $INPUT_WEBHOOK_TYPE , it must be either 'trigger_provider_job' or 'consumer_commit_status'"
     exit 1
   fi
 
-  if [ -z "$broker_auth" ]
+  if [ -z "$(broker_auth_setup)" ]
   then
     echo "Error - either broker token or username+password has to be provided"
     exit 1
   fi
 
-   if [ "$INPUT_WEBHOOK_TYPE" == "trigger_provider_job" ] && [ -z "$provider_args" ]
+   if [ "$INPUT_WEBHOOK_TYPE" == "trigger_provider_job" ] && [ -z "$(provider_details)" ]
    then
      echo "Error - provider details has to be provided for 'trigger_provider_job' webhook"
    fi
 
-   if [ "$INPUT_WEBHOOK_TYPE" == "consumer_commit_status" ] && [ -z "$consumer_args" ]
+   if [ "$INPUT_WEBHOOK_TYPE" == "consumer_commit_status" ] && [ -z "$(consumer_details)" ]
    then
      echo "Error - consumer details has to be provided for 'consumer_commit_status' webhook"
    fi
 
-  if [ -z "$events_args" ]
+  if [ -z "$(webhook_events)" ]
   then
     echo "Error - no webhooks events are set to 'true'"
     exit 1
@@ -209,7 +209,7 @@ uri_setup() {
 create_webhook() {
   validate_args
 
-  echo "$PACT_CLI $EXECUTOR $command_to_execute $uri $broker_auth $provider_args $consumer_args $events_args"
+#  echo "$PACT_CLI $EXECUTOR $command_to_execute $uri $broker_auth $provider_args $consumer_args $events_args"
 
 #  docker run --rm pactfoundation/pact-cli:latest broker \
 #                      "$COMMAND_TO_EXECUTE"  "$URI"\
