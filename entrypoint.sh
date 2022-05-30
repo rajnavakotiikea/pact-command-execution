@@ -204,14 +204,14 @@ create_webhook() {
   if [ "$INPUT_WEBHOOK_TYPE" == "trigger_provider_job" ]
   then
     github_url="https://api.github.com/repos/${INPUT_ORGANIZATION}/${INPUT_REPOSITORY}/dispatches"
-    payload="'{ "event_type": "pact_changed", "client_payload": { "pact_url": "${pactbroker.pactUrl}" } }'"
+    payload='{ "event_type": "pact_changed", "client_payload": { "pact_url": "${pactbroker.pactUrl}" } }'
   elif [ "$INPUT_WEBHOOK_TYPE" == "consumer_commit_status" ]
   then
     github_url="https://api.github.com/repos/${INPUT_ORGANIZATION}/${INPUT_REPOSITORY}/statuses/${pactbroker.consumerVersionNumber}"
-    payload="'{ "state": "${pactbroker.githubVerificationStatus}",
+    payload='{ "state": "${pactbroker.githubVerificationStatus}",
                      "description": "Pact Verification Tests ${pactbroker.providerVersionTags}",
                      "context": "${pactbroker.providerName} ${pactbroker.providerVersionTags}",
-                     "target_url": "${pactbroker.verificationResultUrl}" }'"
+                     "target_url": "${pactbroker.verificationResultUrl}" }'
   fi
 
   echo "$github_url"
