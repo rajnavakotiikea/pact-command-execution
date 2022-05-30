@@ -4,18 +4,27 @@ set -e
 PACT_CLI="docker run --rm pactfoundation/pact-cli:latest ";
 EXECUTOR="broker "
 COMMAND=''
-URI=''
-COMMAND_TO_EXECUTE=''
-GITHUB_URI=''
-HEADERS=''
-REQUEST=''
-DATA=''
-PROVIDER_DETAILS=''
-CONSUMER_DETAILS=''
-EVENT_LIST=''
-WEBHOOK_DESCRIPTION=''
-BROKER_AUTHENTICATION=''
-TEAM_DETAILS=''
+#URI=''
+#COMMAND_TO_EXECUTE=''
+#GITHUB_URI=''
+#HEADERS=''
+#REQUEST=''
+#DATA=''
+#PROVIDER_DETAILS=''
+#CONSUMER_DETAILS=''
+#EVENT_LIST=''
+#WEBHOOK_DESCRIPTION=''
+#BROKER_AUTHENTICATION=''
+#TEAM_DETAILS=''
+
+command_to_execute="$(command_setup)"
+uri="$(uri_setup)"
+broker_auth="$(broker_auth_setup)"
+consumer_args="$(consumer_details)"
+provider_args="$(provider_details)"
+events_args="$(webhook_events)"
+
+
 
 
 testing() {
@@ -24,6 +33,54 @@ testing() {
   echo "$PACT_CLI $EXECUTOR $COMMAND"
   echo "$INPUT_ACTION"
   echo "$INPUT_WEBHOOK_TYPE"
+}
+
+validate_args() {
+  if [ "$INPUT_ACTION" != "create" ]
+  then
+    if [ "$INPUT_ACTION" != "update" ]
+    then
+    echo >&2 "Action(input value) is $INPUT_ACTION,it must be either 'create' or 'update'"
+    exit 1
+    fi
+  fi
+
+  if [ "$INPUT_ACTION" != "trigger_provider_job" ]
+  then
+    if [ "$INPUT_ACTION" != "consumer_commit_status" ]
+    then
+    echo "Error - Action(input value) is $INPUT_ACTION,it must be either 'create' or 'update'"
+    exit 1
+    fi
+  fi
+
+  if [ -z "$uri" ]
+  then
+    echo "Error - Webhook_type(input value) is $INPUT_WEBHOOK_TYPE , it must be either 'trigger_provider_job' or 'consumer_commit_status'"
+    exit 1
+  fi
+
+  if [ -z "$broker_auth" ]
+  then
+    echo "Error - either broker token or username+password has to be provided"
+    exit 1
+  fi
+
+   if [ "$INPUT_WEBHOOK_TYPE" == "trigger_provider_job" ] && [ -z "$provider_args" ]
+   then
+     echo "Error - provider details has to be provided for 'trigger_provider_job' webhook"
+   fi
+
+   if [ "$INPUT_WEBHOOK_TYPE" == "consumer_commit_status" ] && [ -z "$consumer_args" ]
+   then
+     echo "Error - consumer details has to be provided for 'consumer_commit_status' webhook"
+   fi
+
+  if [ -z "$events_args" ]
+  then
+    echo "Error - no webhooks events are set to 'true'"
+    exit 1
+  fi
 }
 
 webhook_events() {
@@ -81,6 +138,7 @@ webhook_events() {
 }
 
 consumer_details() {
+  echo "$TESTER"
   consumer_section=""
   echo "provided consumer name: $INPUT_CONSUMER and consumer label: $INPUT_CONSUMER_LABEL"
   if [ -n "$INPUT_CONSUMER" ]
@@ -149,19 +207,23 @@ uri_setup() {
 }
 
 create_webhook() {
-  docker run --rm pactfoundation/pact-cli:latest broker \
-                      "$COMMAND_TO_EXECUTE"  "$URI"\
-                      "$GITHUB_URI" \
-                      "$HEADERS" \
-                      "'Authorization: Bearer ${INPUT_GITHUB_PERSONAL_ACCESS_TOKEN}'" \
-                      "$REQUEST" \
-                      "$DATA" \
-                      "$PROVIDER_DETAILS"  "$CONSUMER_DETAILS" \
-                      "$EVENT_LIST" \
-                      "$WEBHOOK_DESCRIPTION" \
-                      "$INPUT_BROKER_BASE_URL" \
-                      "$BROKER_AUTHENTICATION" \
-                      "$TEAM_DETAILS"
+  validate_args
+
+  echo "$PACT_CLI $EXECUTOR $command_to_execute $uri $broker_auth $provider_args $consumer_args $events_args"
+
+#  docker run --rm pactfoundation/pact-cli:latest broker \
+#                      "$COMMAND_TO_EXECUTE"  "$URI"\
+#                      "$GITHUB_URI" \
+#                      "$HEADERS" \
+#                      "'Authorization: Bearer ${INPUT_GITHUB_PERSONAL_ACCESS_TOKEN}'" \
+#                      "$REQUEST" \
+#                      "$DATA" \
+#                      "$PROVIDER_DETAILS"  "$CONSUMER_DETAILS" \
+#                      "$EVENT_LIST" \
+#                      "$WEBHOOK_DESCRIPTION" \
+#                      "$INPUT_BROKER_BASE_URL" \
+#                      "$BROKER_AUTHENTICATION" \
+#                      "$TEAM_DETAILS"
 
 #  docker run --rm pactfoundation/pact-cli:latest broker create-webhook 'https://api.github.com/repos/rajnavakotiikea/example-provider/dispatches' \
 #                    --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
@@ -199,15 +261,17 @@ broker_auth_setup() {
 }
 
 testing
-broker_auth="$(broker_auth_setup)"
-echo "$broker_auth"
-command_value=$(command_setup)
-echo "$command_value"
-uri_value="$(uri_setup)"
-echo "$uri_value"
-consumer="$(consumer_details)"
-echo "$consumer"
-provider="$(provider_details)"
-echo "$provider"
-events_to_add="$(webhook_events)"
-echo "$events_to_add"
+create_webhook
+#broker_auth="$(broker_auth_setup)"
+#echo "$broker_auth"
+#command_value=$(command_setup)
+#echo "$command_value"
+#uri_value="$(uri_setup)"
+#echo "$uri_value"
+#consumer="$(consumer_details)"
+#echo "$consumer"
+#provider="$(provider_details)"
+#echo "$provider"
+#events_to_add="$(webhook_events)"
+#echo "$events_to_add"
+
