@@ -199,7 +199,7 @@ create_webhook() {
                         $broker_auth
   elif [ "$INPUT_WEBHOOK_TYPE" == "consumer_commit_status" ]
   then
-    github_url="https://api.github.com/repos/${INPUT_ORGANIZATION}/${INPUT_REPOSITORY}/statuses/${pactbroker.consumerVersionNumber}"
+    github_url="https://api.github.com/repos/${INPUT_ORGANIZATION}/${INPUT_REPOSITORY}/statuses/\${pactbroker.consumerVersionNumber}"
     docker run --rm pactfoundation/pact-cli:latest broker $command_to_execute $github_url \
                         --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
                         "'Authorization: Bearer ${INPUT_GITHUB_PERSONAL_ACCESS_TOKEN}'" \
