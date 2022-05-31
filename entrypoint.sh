@@ -178,7 +178,7 @@ broker_auth_setup() {
 create_webhook() {
   # generate UUID
   uuid_args=''
-  generated_uuid="$(docker run -t --rm pactfoundation/pact-cli:latest broker generate-uuid)"
+  generated_uuid="$(docker run -t --rm pactfoundation/pact-cli:latest broker generate-uuid | tr -d '\r')"
   if [ -n "$generated_uuid" ]
   then
     uuid_args="--uuid $generated_uuid"
