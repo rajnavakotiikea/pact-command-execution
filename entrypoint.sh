@@ -176,6 +176,16 @@ broker_auth_setup() {
 }
 
 create_webhook() {
+  # generate UUID
+  uuid_args=''
+  generated_uuid="$(docker run -t --rm pactfoundation/pact-cli:latest broker generate-uuid)"
+  if [ -n "$generated_uuid" ]
+  then
+    uuid_args="--uuid $generated_uuid"
+  fi
+
+  echo "Generated uuid: $uuid_args"
+
   command_to_execute=$(command_setup)
   uri=$(uri_setup)
   broker_auth="$(broker_auth_setup)"
@@ -196,7 +206,8 @@ create_webhook() {
                         $events_args \
                         --description "${INPUT_DESCRIPTION}" \
                         --broker-base-url ${INPUT_BROKER_BASE_URL} \
-                        $broker_auth
+                        $broker_auth \
+                        $uuid_args
   elif [ "$INPUT_WEBHOOK_TYPE" == "consumer_commit_status" ]
   then
     github_url="https://api.github.com/repos/${INPUT_ORGANIZATION}/${INPUT_REPOSITORY}/statuses/\${pactbroker.consumerVersionNumber}"
@@ -213,12 +224,11 @@ create_webhook() {
                         $events_args \
                         --description "${INPUT_DESCRIPTION}" \
                         --broker-base-url "${INPUT_BROKER_BASE_URL}" \
-                        $broker_auth
+                        $broker_auth \
+                        $uuid_args
   fi
 }
 
-
-
 validate_args
-
 create_webhook
+
