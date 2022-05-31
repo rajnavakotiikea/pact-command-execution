@@ -1,5 +1,5 @@
 name: Create-or-update-pact-webhook
-description: 'This action creates/updated pact webhooks. can also be used for pact flow'
+description: 'This action creates/updates pact webhooks (trigger_provider_job, consumer_git_commit_status). can also be used for pact flow'
 author: rajnavakoti
 branding:
   icon: 'arrow-right'
