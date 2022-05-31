@@ -114,11 +114,10 @@ inputs:
     description: UUID of the Pactflow team to which the webhook should be assigned (Pactflow only)
     required: false
 
-#outputs:
-#  workflow_id:
-#    description: The ID of the workflow that was triggered by this action
-#  workflow_url:
-#    description: The URL of the workflow that was triggered by this action
+outputs:
+  webhook_uuid:
+    description: UUID of created webhook
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
