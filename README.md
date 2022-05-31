@@ -45,7 +45,7 @@ When deploying an app you may need to deploy additional services, this Github Ac
 ### Create 'repository_dispatch' webhook to trigger provider webhook
 
 ```yaml
-- uses: rajnavakotiikea/pact-command-execution@v1.0.1
+- uses: rajnavakotiikea/pact-command-execution@v1.0.0
   with:
     action: create
     webhook_type: trigger_provider_job
@@ -64,7 +64,7 @@ When deploying an app you may need to deploy additional services, this Github Ac
 ### Create 'git commit status' webhook to receive verification status on consumer side
 
 ```yaml
-- uses: rajnavakotiikea/pact-command-execution@v1.0.1
+- uses: rajnavakotiikea/pact-command-execution@v1.0.0
   with:
     action: create
     webhook_type: consumer_commit_status
