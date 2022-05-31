@@ -212,7 +212,7 @@ create_webhook() {
                         $consumer_args \
                         $events_args \
                         --description "${INPUT_DESCRIPTION}" \
-                        --broker-base-url ${INPUT_BROKER_BASE_URL} \
+                        --broker-base-url "${INPUT_BROKER_BASE_URL}" \
                         $broker_auth
   fi
 }
