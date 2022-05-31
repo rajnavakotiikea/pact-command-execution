@@ -207,7 +207,7 @@ create_webhook() {
                         --description "${INPUT_DESCRIPTION}" \
                         --broker-base-url ${INPUT_BROKER_BASE_URL} \
                         $broker_auth \
-                        --uuid fb9cc310-a254-4107-a064-0f5802e2bd16
+                        --uuid $generated_uuid
   elif [ "$INPUT_WEBHOOK_TYPE" == "consumer_commit_status" ]
   then
     github_url="https://api.github.com/repos/${INPUT_ORGANIZATION}/${INPUT_REPOSITORY}/statuses/\${pactbroker.consumerVersionNumber}"
@@ -225,7 +225,7 @@ create_webhook() {
                         --description "${INPUT_DESCRIPTION}" \
                         --broker-base-url "${INPUT_BROKER_BASE_URL}" \
                         $broker_auth \
-                        --uuid fb9cc310-a254-4107-a064-0f5802e2bd16
+                        --uuid $generated_uuid
   fi
 }
 
