@@ -22,7 +22,7 @@ jobs:
         uses: docker/metadata-action@v3
         id: meta
         with:
-          images: convictional/trigger-workflow-and-wait
+          images: rajnavakotiikea/pact-command-execution
           tags: |
             type=ref,event=tag
             type=raw,enable=${{ !startsWith(github.ref, 'refs/tags/') }},value=master
