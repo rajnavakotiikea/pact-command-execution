@@ -1,17 +1,6 @@
 #!/usr/bin/env bash
 set -e
 
-PACT_CLI="docker run --rm pactfoundation/pact-cli:latest ";
-EXECUTOR="broker "
-
-testing() {
-  echo ""
-  echo "This is to test the docker build"
-  echo "$PACT_CLI $EXECUTOR $COMMAND"
-  echo "$INPUT_ACTION"
-  echo "$INPUT_WEBHOOK_TYPE"
-}
-
 validate_args() {
   if [ "$INPUT_ACTION" != "create" ]
   then
@@ -170,6 +159,22 @@ uri_setup() {
   echo "$uri"
 }
 
+broker_auth_setup() {
+  authentication=""
+  if [ -z "$INPUT_BROKER_TOKEN" ]
+  then
+    if [ -z "$INPUT_BROKER_USERNAME" ] || [ -z "$INPUT_BROKER_PASSWORD" ]
+    then
+      authentication=""
+    else
+      authentication="--broker-username $INPUT_BROKER_USERNAME --broker-password $INPUT_BROKER_PASSWORD"
+    fi
+  else
+    authentication="--broker-token $INPUT_BROKER_TOKEN"
+  fi
+  echo "$authentication"
+}
+
 create_webhook() {
   command_to_execute=$(command_setup)
   uri=$(uri_setup)
@@ -212,22 +217,8 @@ create_webhook() {
   fi
 }
 
-broker_auth_setup() {
-  authentication=""
-  if [ -z "$INPUT_BROKER_TOKEN" ]
-  then
-    if [ -z "$INPUT_BROKER_USERNAME" ] || [ -z "$INPUT_BROKER_PASSWORD" ]
-    then
-      authentication=""
-    else
-      authentication="--broker-username $INPUT_BROKER_USERNAME --broker-password $INPUT_BROKER_PASSWORD"
-    fi
-  else
-    authentication="--broker-token $INPUT_BROKER_TOKEN"
-  fi
-  echo "$authentication"
-}
 
-testing
+
 validate_args
+
 create_webhook
