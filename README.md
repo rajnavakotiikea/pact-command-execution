@@ -1,10 +1,10 @@
 # Pact command execution
 
-Github Action for trigger a workflow from another workflow. The action then waits for a response.
+Github Action for creating or updating pact webhooks for triggering provider verification job and receiving git commit status on consumer side
 
 **When would you use it?**
 
-When deploying an app you may need to deploy additional services, this Github Action helps with that.
+When you want to create/update pact webhooks part of your CI/CD pipeline
 
 
 ## Arguments
