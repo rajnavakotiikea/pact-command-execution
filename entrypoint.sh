@@ -186,21 +186,21 @@ create_webhook() {
   if [ "$INPUT_WEBHOOK_TYPE" == "trigger_provider_job" ]
   then
     github_url="https://api.github.com/repos/${INPUT_ORGANIZATION}/${INPUT_REPOSITORY}/dispatches"
-    docker run --rm pactfoundation/pact-cli:latest broker "$command_to_execute" "$github_url" \
+    docker run --rm pactfoundation/pact-cli:latest broker $command_to_execute $github_url \
                         --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
                         "'Authorization: Bearer ${INPUT_GITHUB_PERSONAL_ACCESS_TOKEN}'" \
                         --request POST \
                         --data '{ "event_type": "pact_changed", "client_payload": { "pact_url": "${pactbroker.pactUrl}" } }' \
-                        "$provider_args" \
-                        "$consumer_args" \
-                        "$events_args" \
+                        $provider_args \
+                        $consumer_args \
+                        $events_args \
                         --description "${INPUT_DESCRIPTION}" \
-                        --broker-base-url "${INPUT_BROKER_BASE_URL}" \
-                        "$broker_auth"
+                        --broker-base-url ${INPUT_BROKER_BASE_URL} \
+                        $broker_auth
   elif [ "$INPUT_WEBHOOK_TYPE" == "consumer_commit_status" ]
   then
     github_url="https://api.github.com/repos/${INPUT_ORGANIZATION}/${INPUT_REPOSITORY}/statuses/\${pactbroker.consumerVersionNumber}"
-    docker run --rm pactfoundation/pact-cli:latest broker "$command_to_execute" "$github_url" \
+    docker run --rm pactfoundation/pact-cli:latest broker $command_to_execute $github_url \
                         --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
                         "'Authorization: Bearer ${INPUT_GITHUB_PERSONAL_ACCESS_TOKEN}'" \
                         --request POST \
@@ -208,46 +208,13 @@ create_webhook() {
                                        "description": "Pact Verification Tests ${pactbroker.providerVersionTags}",
                                        "context": "${pactbroker.providerName} ${pactbroker.providerVersionTags}",
                                        "target_url": "${pactbroker.verificationResultUrl}" }' \
-                        "$provider_args" \
-                        "$consumer_args" \
-                        "$events_args" \
+                        $provider_args \
+                        $consumer_args \
+                        $events_args \
                         --description "${INPUT_DESCRIPTION}" \
                         --broker-base-url "${INPUT_BROKER_BASE_URL}" \
-                        "$broker_auth"
+                        $broker_auth
   fi
-
-#  if [ "$INPUT_WEBHOOK_TYPE" == "trigger_provider_job" ]
-#  then
-#    github_url="https://api.github.com/repos/${INPUT_ORGANIZATION}/${INPUT_REPOSITORY}/dispatches"
-#    docker run --rm pactfoundation/pact-cli:latest broker $command_to_execute $github_url \
-#                        --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
-#                        "'Authorization: Bearer ${INPUT_GITHUB_PERSONAL_ACCESS_TOKEN}'" \
-#                        --request POST \
-#                        --data '{ "event_type": "pact_changed", "client_payload": { "pact_url": "${pactbroker.pactUrl}" } }' \
-#                        $provider_args \
-#                        $consumer_args \
-#                        $events_args \
-#                        --description "${INPUT_DESCRIPTION}" \
-#                        --broker-base-url ${INPUT_BROKER_BASE_URL} \
-#                        $broker_auth
-#  elif [ "$INPUT_WEBHOOK_TYPE" == "consumer_commit_status" ]
-#  then
-#    github_url="https://api.github.com/repos/${INPUT_ORGANIZATION}/${INPUT_REPOSITORY}/statuses/\${pactbroker.consumerVersionNumber}"
-#    docker run --rm pactfoundation/pact-cli:latest broker $command_to_execute $github_url \
-#                        --header 'Content-Type: application/json' 'Accept: application/vnd.github.everest-preview+json' \
-#                        "'Authorization: Bearer ${INPUT_GITHUB_PERSONAL_ACCESS_TOKEN}'" \
-#                        --request POST \
-#                        --data '{ "state": "${pactbroker.githubVerificationStatus}",
-#                                       "description": "Pact Verification Tests ${pactbroker.providerVersionTags}",
-#                                       "context": "${pactbroker.providerName} ${pactbroker.providerVersionTags}",
-#                                       "target_url": "${pactbroker.verificationResultUrl}" }' \
-#                        $provider_args \
-#                        $consumer_args \
-#                        $events_args \
-#                        --description "${INPUT_DESCRIPTION}" \
-#                        --broker-base-url "${INPUT_BROKER_BASE_URL}" \
-#                        $broker_auth
-#  fi
 }
 
 
